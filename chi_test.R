@@ -1,20 +1,9 @@
-library(RODBC)
 library(jiebaR)
 library(tm)
 library(RTextTools)
 
-mycon <- odbcConnect("4.107", "root", "123456")
-test.train <- sqlQuery(mycon, "SELECT * FROM bucket", stringsAsFactors = F)
-encode <- c('UTF-8')
-for(i in 2:length(test.train)){
-  if(is.character(test.train[, i])){
-    Encoding(test.train[, i]) <- encode
-  }
-  cat("=====", i, "=====\n")
-}
 
-test.train <- test.train[c(1,3,7,11,14)]
-table(test.train$source)
+test.train <- readRDS("test_train.rds")
 
 train.title <- strsplit(test.train$title, split = "")
 names(train.title) <- test.train$ID
@@ -24,12 +13,12 @@ names(train.content) <- test.train$ID
 train.title <- sapply(train.title, function(x) gsub("[a-zA-Z]", "", removePunctuation(removeNumbers(x))))
 train.title <- sapply(train.title, function(x) gsub("\\s", "", x))
 train.title <- sapply(train.title, function(x) x[nchar(x) != 0])
-train.title <- sapply(train.title, function(x) list(x))
+train.title <- sapply(train.title, function(x) list(list(x)))
 
 train.content <- sapply(train.content, function(x) gsub("[a-zA-Z]", "", removePunctuation(removeNumbers(x))))
 train.content <- sapply(train.content, function(x) gsub("\\s", "", x))
 train.content <- sapply(train.content, function(x) x[nchar(x) != 0])
-train.content <- sapply(train.content, function(x) list(x))
+train.content <- sapply(train.content, function(x) list(list(x)))
 
 corpus.train.title <- Corpus(VectorSource(train.title), readerControl = list(language = "ZHCN"))
 corpus.train.content <- Corpus(VectorSource(train.content), readerControl = list(language = "ZHCN"))
