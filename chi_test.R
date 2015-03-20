@@ -2,7 +2,6 @@ library(jiebaR)
 library(tm)
 library(RTextTools)
 
-
 test.train <- readRDS("test_train.rds")
 
 train.title <- strsplit(test.train$title, split = "")
