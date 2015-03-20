@@ -36,8 +36,8 @@ for (i in 1:length(corpus.train.content)){
 }
 
 
-control.tfidf <- list(removePunctuation = T, removeNumbers = T, stripWhitespace = T, wordLengths = c(2, 10), weighting = function(x)weightTfIdf(x, normalize = F))
-control.tf <- list(removePunctuation = T, removeNumbers = T, stripWhitespace = T, wordLengths = c(2, 10))
+control.tfidf <- list(removePunctuation = F, removeNumbers = T, stripWhitespace = T, wordLengths = c(2, 10), weighting = function(x)weightTfIdf(x, normalize = F))
+control.tf <- list(removePunctuation = F, removeNumbers = T, stripWhitespace = T, wordLengths = c(2, 10))
 
 dtm.tfidf.train.title <- DocumentTermMatrix(corpus.train.title, control.tfidf)
 dtm.tfidf.train.content <- DocumentTermMatrix(corpus.train.content, control.tfidf)
