@@ -35,6 +35,7 @@ if(weighting == "tfidf"){
   print("Please make sure weighting is right.")
 }
 dtm <- dtm[, -c(1:25)]
+
 category <- ifelse(test.train$source == "", , )
 
 SVM <- svm(dtm, as.factor(test.train$source), type = "C-classification", kernel = "radial")
