@@ -2,10 +2,10 @@ library(tm)
 library(e1071)
 library(jiebaR)
 
-test.train <- readRDS("test_train.rds")
+test.train <- readRDS("Data_&_Model/test_train.rds")
 
 data <- test.train$title
-weighting <- "tfidf"
+weighting <- "tf"
 tfidf <- list(removePunctuation = T, removeNumbers = T, stripWhitespace = T, wordLengths = c(1, 10), weighting = function(x)weightTfIdf(x, normalize = F))
 tf <- list(removePunctuation = T, removeNumbers = T, stripWhitespace = T, wordLengths = c(1, 10))
 
@@ -59,7 +59,7 @@ weight <- 0
 amat <- matrix(weight,nrow=nrow(pred),ncol=length(terms))
 colnames(amat) <- terms
 rownames(amat) <- rownames(pred)
-fixed <- as.DocumentTermMatrix(cbind(pred[,which(colnames(pred) %in% colnames(dtm))],amat),weighting=weightTf)
+fixed <- as.DocumentTermMatrix(cbind(pred[,which(colnames(pred) %in% colnames(dtm))],amat),weighting=weightTfidf)
 pred <- fixed
 
 
