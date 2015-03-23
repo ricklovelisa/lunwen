@@ -1,3 +1,4 @@
+source("Function.R")
 preddata <- c("")
 preddata <- strsplit(preddata, split = "")
 preddata <- sapply(preddata, function(x) list(list(x)))
