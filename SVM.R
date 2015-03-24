@@ -45,8 +45,7 @@ if(weighting == "tfidf"){
 
 SVM <- list()
 for(i in 1:length(names(table(test.train$source)))){
-  CATE <- test.train$source[as.numeric(Docs(dtm))]
-  CATE <- ifelse(CATE == names(table(test.train$source))[i], names(table(test.train$source))[i], "other")
+  CATE <- ifelse(test.train$source == names(table(test.train$source))[i], names(table(test.train$source))[i], "other")
   CATE <- as.factor(CATE)
   SVM[[i]] <- svm(dtm, CATE, type = "C-classification", kernel = "radial", cross = 10)
   cat(i,"\n")
@@ -54,7 +53,7 @@ for(i in 1:length(names(table(test.train$source)))){
 
 SVM <- svm(dtm, CATE, type = "C-classification", kernel = "radial", cross = 10)
 
-saveRDS(SVM, "SVM_17_content_tf.rds")
+saveRDS(SVM, "SVM_17_content_tf_noclean.rds")
 
 
 
