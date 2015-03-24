@@ -1,4 +1,4 @@
-MakePredDtm <- function(dtm,weighting = "tf"){
+MakePredDtm <- function(pred,dtm,weighting = "tf"){
   terms <- colnames(dtm[,which(!colnames(dtm) %in% colnames(pred))])
   weight <- 0
   amat <- matrix(weight,nrow=nrow(pred),ncol=length(terms))

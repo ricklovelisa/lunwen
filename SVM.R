@@ -4,18 +4,21 @@ library(jiebaR)
 
 test.train <- readRDS("Data_&_Model/test_train.rds")
 
+cutter <- worker()
 data <- test.train$content
 weighting <- "tf"
 tfidf <- list(removePunctuation = T, removeNumbers = T, stripWhitespace = T, wordLengths = c(1, 10), weighting = function(x)weightTfIdf(x, normalize = F))
 tf <- list(removePunctuation = T, removeNumbers = T, stripWhitespace = T, wordLengths = c(1, 10))
+stopwordsCN <- readLines("stopwordsCN.dic", encoding = "UTF-8")
 
 ###################################################################################
 ###################################################################################
 ###################################################################################
 
-train <- strsplit(data, split = "")
+train <- sapply(data, function(x) cutter[x])
+names(train) <- 1:length(train)
 names(train) <- test.train$ID
-train <- sapply(train, function(x) gsub("[a-zA-Z]", "", removePunctuation(removeNumbers(x))))
+train <- sapply(train, function(x) removePunctuation(removeNumbers(removeWords(x, stopwordsCN))))
 train <- sapply(train, function(x) gsub("\\s", "", x))
 train <- sapply(train, function(x) x[nchar(x) != 0])
 train <- sapply(train, function(x) list(list(x)))
@@ -34,9 +37,14 @@ if(weighting == "tfidf"){
 }else{
   print("Please make sure weighting is right.")
 }
-dtm <- dtm[, -c(1:270)]
+
 
 # category <- ifelse(test.train$source == "", , )
-
-SVM <- svm(dtm, as.factor(test.train$source), type = "C-classification", kernel = "linear")
+SVM <- list()
+for(i in 1:length(names(table(test.train$source)))){
+  CATE <- ifelse(test.train$source == names(table(test.train$source))[i], names(table(test.train$source))[i], "other")
+  CATE <- as.factor(CATE)
+  SVM[[i]] <- svm(dtm, CATE, type = "C-classification", kernel = "radial", cross = 10)
+  cat(i,"\n")
+}
 
