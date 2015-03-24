@@ -1,8 +1,13 @@
 library(tm)
+library(slam)
 library(e1071)
 library(jiebaR)
 
 test.train <- readRDS("Data_&_Model/test_train.rds")
+# dtm <- readRDS("Data_&_Model/dtm_tf_content_seg_noclean.rds")
+# term_tfidf <- tapply(dtm$v/row_sums(dtm)[dtm$i], dtm$j, mean) * log2(nDocs(dtm)/col_sums(dtm > 0))
+# dtm <- dtm[,term_tfidf >= 0.1]
+# dtm <- dtm[row_sums(dtm) > 0, ]
 
 cutter <- worker()
 data <- test.train$content
@@ -38,13 +43,26 @@ if(weighting == "tfidf"){
   print("Please make sure weighting is right.")
 }
 
-
-# category <- ifelse(test.train$source == "", , )
 SVM <- list()
 for(i in 1:length(names(table(test.train$source)))){
-  CATE <- ifelse(test.train$source == names(table(test.train$source))[i], names(table(test.train$source))[i], "other")
+  CATE <- test.train$source[as.numeric(Docs(dtm))]
+  CATE <- ifelse(CATE == names(table(test.train$source))[i], names(table(test.train$source))[i], "other")
   CATE <- as.factor(CATE)
   SVM[[i]] <- svm(dtm, CATE, type = "C-classification", kernel = "radial", cross = 10)
   cat(i,"\n")
 }
+
+SVM <- svm(dtm, CATE, type = "C-classification", kernel = "radial", cross = 10)
+
+saveRDS(SVM, "SVM_17_content_tf.rds")
+
+
+
+
+
+
+
+
+
+
 
