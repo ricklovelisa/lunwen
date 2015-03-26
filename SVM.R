@@ -22,7 +22,7 @@ stopwordsCN <- readLines("stopwordsCN.dic", encoding = "UTF-8")
 
 train <- sapply(data, function(x) cutter[x])
 names(train) <- 1:length(train)
-names(train) <- test.train$ID
+names(train) <- paste(test.train$ID, test.train$source, sep = "_")
 train <- sapply(train, function(x) removePunctuation(removeNumbers(removeWords(x, stopwordsCN))))
 train <- sapply(train, function(x) gsub("\\s", "", x))
 train <- sapply(train, function(x) x[nchar(x) != 0])
@@ -32,7 +32,7 @@ for (i in 1:length(corpus)){
   corpus[[i]]$content <- sub("c", "", corpus[[i]]$content)
 }
 for (i in 1:length(corpus)){
-  meta(corpus[[i]], tag = 'id') <- test.train$ID[i]
+  meta(corpus[[i]], tag = 'id') <- names(train)[i]
 }
 
 if(weighting == "tfidf"){
