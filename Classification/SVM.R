@@ -57,6 +57,35 @@ SVM <- svm(dtm, CATE, type = "C-classification", kernel = "radial", cross = 10)
 
 saveRDS(SVM, "SVM_17_content_tf_noclean.rds")
 
+#############################################################################################
+#############################################################################################
+#############################################################################################
+#############################################################################################
+setwd("Classification/")
+
+library(tm)
+library(slam)
+library(e1071)
+library(jiebaR)
+
+test.train <- readRDS("Data_&_Model/test_train.rds")
+dtm <- readRDS("Data_&_Model/dtm_tf_content_seg_clean.rds")
+hisq.Matrix <- readRDS("Data_&_Model/chisq_matrix.rds")
+
+SVM <- list()
+DTM <- list()
+CATE <- list()
+for(i in 1:17){
+  CATE[[i]] <- ifelse(category == unique(category)[i], unique(category)[i], "other")
+  CATE[[i]] <- as.factor(CATE[[i]])
+  DTM[[i]] <- dtm[, chisq.Matrix[, i] >= 3.8]
+  DTM[[i]] <- DTM[[i]][row_sums(dtm) > 0, ]
+  SVM[[i]] <- tune.svm(DTM[[i]], CATE[[i]], type = "C-classification", kernel = "radial", cross = 5,  gamma = 10^(-6:-1), cost = 10^(1:2))
+  cat(i,"\n")
+}
+
+
+
 
 
 
