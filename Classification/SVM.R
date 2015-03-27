@@ -1,3 +1,5 @@
+setwd("Classification/")
+
 library(tm)
 library(slam)
 library(e1071)

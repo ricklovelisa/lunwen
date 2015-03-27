@@ -1,3 +1,5 @@
+setwd("Classification/")
+
 MakePredDtm <- function(pred, dtm){ # weighting = "tf" 暂时不要用tfidf
   terms <- colnames(dtm[,which(!colnames(dtm) %in% colnames(pred))])
   amat <- matrix(0, nrow = nrow(pred), ncol = length(terms))

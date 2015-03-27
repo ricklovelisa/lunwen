@@ -1,3 +1,5 @@
+setwd("Classification/")
+
 source("Function.R")
 preddata <- c("一汽的资本困局与救赎
 
