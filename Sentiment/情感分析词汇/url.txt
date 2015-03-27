@@ -1,0 +1,2 @@
+数据标题：情感词典( 基于情感词汇本体 )
+数据网址：http://www.datatang.com/datares/go.aspx?dataid=619774
