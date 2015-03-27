@@ -36,6 +36,7 @@ ChisqareTest <- function(dtm, label){
       XsqMatrix <- table(terms,cate) # confusion matrix
       chisq[j, i] <- chisq.test(XsqMatrix, correct = F)$statistic
     }
+    print("已完成类别", unique(lable)[i])
   }
   return(chisq)
 }
