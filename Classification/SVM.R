@@ -70,16 +70,18 @@ library(jiebaR)
 
 test.train <- readRDS("Data_&_Model/test_train.rds")
 dtm <- readRDS("Data_&_Model/dtm_tf_content_seg_clean.rds")
-hisq.Matrix <- readRDS("Data_&_Model/chisq_matrix.rds")
+chisq.Matrix <- readRDS("Data_&_Model/chisq_matrix.rds")
+category <- as.vector(sapply(rownames(dtm), function(x) strsplit(x,split = "_")[[1]][2]))
 
 SVM <- list()
 DTM <- list()
 CATE <- list()
 for(i in 1:17){
-  CATE[[i]] <- ifelse(category == unique(category)[i], unique(category)[i], "other")
-  CATE[[i]] <- as.factor(CATE[[i]])
   DTM[[i]] <- dtm[, chisq.Matrix[, i] >= 3.8]
-  DTM[[i]] <- DTM[[i]][row_sums(dtm) > 0, ]
+  DTM[[i]] <- DTM[[i]][row_sums(DTM[[i]]) > 0, ]
+  CATEGORY <- as.vector(sapply(rownames(DTM[[i]]), function(x) strsplit(x,split = "_")[[1]][2]))
+  CATE[[i]] <- ifelse(CATEGORY == unique(CATEGORY)[i], unique(CATEGORY)[i], "other")
+  CATE[[i]] <- as.factor(CATE[[i]])
   SVM[[i]] <- tune.svm(DTM[[i]], CATE[[i]], type = "C-classification", kernel = "radial", cross = 5,  gamma = 10^(-6:-1), cost = 10^(1:2))
   cat(i,"\n")
 }

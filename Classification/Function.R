@@ -15,3 +15,9 @@ MakePredDtm <- function(pred, dtm){ # weighting = "tf" 暂时不要用tfidf
   pred <- fixed
   return(pred)
 }
+
+DocFreq <- function(dtm){
+  dtm$v[dtm$v != 1] <- 1
+  df <- col_sums(dtm)
+  return(df)
+}
