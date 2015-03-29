@@ -26,17 +26,20 @@ DocFreq <- function(dtm){
 # 支持dtm的卡方检验 #
 ChisqareTest <- function(dtm, label){
   chisq <- matrix(0, nrow = length(Terms(dtm)), ncol = length(unique(label)))
-  for(i in 1:length(unique(label))){
-    cate <- label
-    cate <- ifelse(cate == unique(cate)[i], unique(cate)[i], "other")
-    for(j in 1:length(Terms(dtm))){
-      terms <- as.matrix(dtm[,j])
-      terms[terms != 0] <- 1
+  cate <- list()
+  for(j in 1:length(unique(label))){
+    cate[[j]] <- label
+    cate[[j]] <- ifelse(cate[[j]] == unique(label)[j], unique(cate[[j]])[j], "other")
+  }
+  for(i in 1:length(Terms(dtm))){
+    terms <- as.matrix(dtm[, i])
+    terms[terms != 0] <- 1
+    for(j in 1:length(unique(label))){
       # terms[terms == 0] <- 2
-      XsqMatrix <- table(terms,cate) # confusion matrix
-      chisq[j, i] <- chisq.test(XsqMatrix, correct = F)$statistic
+      XsqMatrix <- table(terms,cate[[j]]) # confusion matrix
+      chisq[i, j] <- chisq.test(XsqMatrix, correct = F)$statistic
     }
-    print("已完成类别", unique(lable)[i])
+    cat("已完成第", i, "个词\n")
   }
   return(chisq)
 }
