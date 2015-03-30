@@ -23,5 +23,5 @@ dtm <- dtm[row_sums(dtm) > 0, ]
 
 # chisq test #
 category <- as.vector(sapply(rownames(dtm), function(x) strsplit(x,split = "_")[[1]][2]))
-chisq <- ChisqareTest(dtm, category)
+chisq <- ChisqareTest(dtm, category, 0.05)
 
