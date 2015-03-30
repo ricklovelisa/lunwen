@@ -34,7 +34,7 @@ ChisqareTest <- function(dtm, label, prob){
   size <- floor(quantile(1:length(Terms(dtm)), probs = seq(0, 1, prob)))
   
   # 计算第一行 #
-  terms.m <- as.matrix(dtm[, 1])
+  terms <- as.matrix(dtm[, 1])
   terms[terms != 0] <- 1
   for(j in 1:length(unique(label))){
     # terms[terms == 0] <- 2
