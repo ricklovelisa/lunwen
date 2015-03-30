@@ -33,7 +33,7 @@ ChisqareTest <- function(dtm, label, prob){
   }
   size <- floor(quantile(1:length(Terms(dtm)), probs = seq(0, 1, prob)))
   
-  # 计算第一行 #
+  # 计算第一个词 #
   terms <- as.matrix(dtm[, 1])
   terms[terms != 0] <- 1
   for(j in 1:length(unique(label))){
@@ -44,8 +44,8 @@ ChisqareTest <- function(dtm, label, prob){
   cat("===== 已完成第", 1, "个词 =====\n")
   ##############
   
-  # 计算其他行 #
-  for(i in size){
+  # 计算其他词 #
+  for(i in size[-length(size)]){
     n <- which(size == i)
     terms.m <- as.matrix(dtm[, (size[n] + 1):size[n + 1]])
     for(k in 1:(size[n + 1] - (size[n] + 1) + 1)){
