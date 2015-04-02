@@ -67,6 +67,12 @@ for(i in 1:17){
   cat(i,"\n")
 }
 
+SVM <- list()
+for(i in 1:17){
+  SVM[[i]] <- svm(DTM[[i]],CATE[[i]], type = "C-classification", kernel = "radial", gamma = SVM.tune[[i]]$best.parameters$gamma, cost = SVM.tune[[i]]$best.parameters$cost)
+  cat(i,"\n")
+}
+
 
 
 # cutter <- worker()
