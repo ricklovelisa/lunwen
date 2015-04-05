@@ -1,8 +1,8 @@
-setwd("Classification/")
+setwd("Sentiment/")
 library(RODBC)
 library(tm)
 library(slam)
-source("../Classification/Function.R")
+source("../Classification/Function.R", encoding = "utf-8")
 
 mycon <- odbcConnect("128.172", "root", "123456")
 hot.topic.id <- sqlQuery(mycon, "select id from htnewsroom.hot_topic where is_hot = 1", stringsAsFactors = F)
