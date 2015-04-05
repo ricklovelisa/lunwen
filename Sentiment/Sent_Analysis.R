@@ -1,9 +1,10 @@
 setwd("Sentiment/")
-library(RODBC)
+# library(RODBC)
 library(tm)
 library(slam)
 source("../Classification/Function.R", encoding = "utf-8")
 
+stopwordsCN <- readLines("../Classification/stopwordsCN.dic", encoding = "UTF-8")
 # mycon <- odbcConnect("128.172", "root", "123456")
 # hot.topic.id <- sqlQuery(mycon, "select id from htnewsroom.hot_topic where is_hot = 1", stringsAsFactors = F)
 # hot.topic.id <- hot.topic.id[hot.topic.id >= 41]
@@ -30,6 +31,7 @@ source("../Classification/Function.R", encoding = "utf-8")
 # saveRDS(test,"../Sentiment/Data_&_Model/test.rds")
 
 # 清理数据集 #
-
-
-
+test <- readRDS("Data_&_Model/test.rds")
+test[[1]]$content <- gsub("[a-zA-Z]", "", test[[1]]$content)
+test[[1]]$content <- gsub("^</.*>$", "", test[[1]]$content)
+removePunctuation(removeNumbers(removeWords(x, stopwordsCN)))
