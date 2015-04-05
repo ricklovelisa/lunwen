@@ -14,5 +14,19 @@ for(i in 1:length(hot.topic.id)){
 
 hot.topic.article.id <- sapply(hot.topic.article.id, as.vector)
 names(hot.topic.article.id) <- hot.topic.id
+select.id <- list()
+for(i in 1:length(hot.topic.id)){
+  select.id[[i]] <- list(min.id = min(hot.topic.article.id[[i]]), max.id = max(hot.topic.article.id[[i]]))
+  cat(i,"\n")
+}
+names(select.id) <- hot.topic.id
+test <- list()
+for(i in 1:length(hot.topic.id)){
+  test[[i]] <- sqlQuery(mycon, paste("select id, title, content from htnewsroom.article where id between", select.id[[i]]$min.id, "and", select.id[[i]]$max.id, sep = " "),stringsAsFactors = F)
+  test[[i]] <- test[[i]][test[[i]]$id %in% hot.topic.article.id[[i]], ]
+  cat(i,"\n")
+}
 
-test <- sqlQuery(mycon, "select id, title, content from htnewsroom.article where id <=", , , ,stringsAsFactors = F)
+saveRDS(test,"../Sentiment/Data_&_Model/test.rds")
+
+
