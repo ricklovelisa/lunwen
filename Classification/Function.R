@@ -65,8 +65,8 @@ ChisqareTest <- function(dtm, label, prob){
 
 # 情感分析 #
 ClassifyEmotion <- function(dtm, algorithm="bayes", prior=1.0, verbose=FALSE, ...) {
-  Index <- read.table("E:/R workspace/Git/lunwen/Sentiment/index_emotion.txt", header=F, stringsAsFactors = F, fileEncoding = "utf-8")
-  lexicon <- read.table("E:/R workspace/Git/lunwen/Sentiment/SentWords_emotion.txt", header=T, stringsAsFactors = F, fileEncoding = "utf-8")
+  Index <- read.table("Sentiment/index_emotion.txt", header=F, stringsAsFactors = F, fileEncoding = "utf-8")
+  lexicon <- read.table("Sentiment/SentWords_emotion.txt", header=T, stringsAsFactors = F, fileEncoding = "utf-8")
   counts <- c(as.list(table(lexicon$情感分类)))
   counts <- c(counts, total = nrow(lexicon))
   documents <- c()
@@ -77,20 +77,20 @@ ClassifyEmotion <- function(dtm, algorithm="bayes", prior=1.0, verbose=FALSE, ..
     scores <- as.list(matrix(0, nrow = n))
     names(scores) <- names(counts)[1:n]
     doc <- dtm[i, ]
-    words <- findFreqTerms(doc, lowfreq=1)
+    words <- findFreqTerms(doc, lowfreq = 1)
     
     for (word in words) {
       for (key in names(scores)) {
-        emotions <- lexicon[which(lexicon[, 2]==key), ]
-        index <- match(word, emotions[, 1], nomatch=0)
+        emotions <- lexicon[which(lexicon[, 2] == key), ]
+        index <- match(word, emotions[, 1], nomatch = 0)
         if (index > 0) {
           entry <- emotions[index, ]
           
           category <- as.character(entry[[2]])
           count <- counts[[category]]
           
-          score <- 1.0
-          if (algorithm=="bayes") score <- abs(log(score*prior/count))
+          score <- col_sums(matrix[, word])
+          if (algorithm=="bayes") score <- abs(score*log(prior/count))
           
           if (verbose) {
             print(paste("WORD:", word, "CAT:", Index$V1[which(Index$V2 == category)], "SCORE:", score))
@@ -106,7 +106,7 @@ ClassifyEmotion <- function(dtm, algorithm="bayes", prior=1.0, verbose=FALSE, ..
         count <- counts[[key]]
         total <- counts[["total"]]
         score <- abs(log(count/total))
-        scores[[key]] <- scores[[key]]+score
+        scores[[key]] <- scores[[key]] + score
       }
     } else {
       for (key in names(scores)) {
@@ -115,8 +115,8 @@ ClassifyEmotion <- function(dtm, algorithm="bayes", prior=1.0, verbose=FALSE, ..
     }
     
     best_fit <- names(scores)[which.max(unlist(scores))]
-    if (best_fit == "disgust" && as.numeric(unlist(scores[2]))-3.09234 < .01) best_fit <- NA
-    documents <- rbind(documents, c(scores$anger, scores$disgust, scores$fear, scores$joy, scores$sadness, scores$surprise, best_fit))
+    # if (best_fit == "disgust" && as.numeric(unlist(scores[2]))-3.09234 < .01) best_fit <- NA
+    documents <- rbind(documents, best_fit)
   }
   
   colnames(documents) <- c(Index$V1[match(names(scores), Index$V2)], "BEST_FIT")
