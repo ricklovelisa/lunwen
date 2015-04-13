@@ -25,18 +25,20 @@ DocFreq <- function(dtm){
 
 # 支持dtm的卡方检验 #
 ChisqareTest <- function(dtm, label, prob){
-  chisq <- matrix(0, nrow = length(Terms(dtm)), ncol = length(unique(label)))
+  Category <- unique(label)
+  chisq <- data.frame(matrix(0, nrow = length(Terms(dtm)), ncol = length(Category)))
+  names(chisq) <- Category
   cate <- list()
-  for(i in 1:length(unique(label))){
+  for(i in 1:length(Category)){
     cate[[i]] <- label
-    cate[[i]] <- ifelse(cate[[i]] == unique(label)[i], unique(cate[[i]])[i], "other")
+    cate[[i]] <- ifelse(cate[[i]] == Category[i], Category[i], "-1")
   }
   size <- floor(quantile(1:length(Terms(dtm)), probs = seq(0, 1, prob)))
   
   # 计算第一个词 #
   terms <- as.matrix(dtm[, 1])
   terms[terms != 0] <- 1
-  for(j in 1:length(unique(label))){
+  for(j in 1:length(Category)){
     # terms[terms == 0] <- 2
     XsqMatrix <- table(terms, cate[[j]]) # confusion matrix
     chisq[1, j] <- chisq.test(XsqMatrix, correct = F)$statistic
@@ -51,7 +53,7 @@ ChisqareTest <- function(dtm, label, prob){
     for(k in 1:(size[n + 1] - (size[n] + 1) + 1)){
       terms <- terms.m[, k]
       terms[terms != 0] <- 1
-      for(j in 1:length(unique(label))){
+      for(j in 1:length(Category)){
         # terms[terms == 0] <- 2
         XsqMatrix <- table(terms, cate[[j]]) # confusion matrix
         chisq[k + i, j] <- chisq.test(XsqMatrix, correct = F)$statistic
