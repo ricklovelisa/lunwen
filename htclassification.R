@@ -27,38 +27,26 @@ dtm.test <- dtm[-train.index, ]
 # chisq test #
 category <- as.vector(sapply(rownames(dtm), function(x) strsplit(x,split = "_")[[1]][2]))
 chisq <- ChisqareTest(dtm, category, 0.05)
-feature.words <- sapply(chisq, function(x) Terms(dtm)[x >= 1.5])
+# feature.words <- sapply(chisq, function(x) Terms(dtm)[x >= 1.5])
 
 
 Category <- unique(category)
 SVM.tune <- list()
 DTM <- list()
 CATE <- list()
-for(i in 1:9){
-  TERMS <- Terms(dtm.train) %in% feature.words[[i]] 
-  DTM[[i]] <- dtm.train[, TERMS]
-  DTM[[i]] <- DTM[[i]][row_sums(DTM[[i]]) > 0, ]
-  CATEGORY <- as.vector(sapply(rownames(DTM[[i]]), function(x) strsplit(x,split = "_")[[1]][2]))
-  CATE[[i]] <- ifelse(CATEGORY == Category[i], Category[i], "-1")
-  CATE[[i]] <- as.factor(CATE[[i]])
-  system.time(SVM.tune[[i]] <- tune.svm(DTM[[i]], CATE[[i]], type = "C-classification", kernel = "linear", gamma = 10^(-6:-1), cost = 10^(-2:2), scale = T))
-  cat(i,"\n")
-}
-
-feature.words <- sapply(chisq, function(x) Terms(dtm)[x >= 2])
-Category <- unique(category)
-SSVM.tune <- list()
-DDTM <- list()
-CCATE <- list()
-for(i in 1:9){
-  TERMS <- Terms(dtm.train) %in% feature.words[[i]] 
-  DDTM[[i]] <- dtm.train[, TERMS]
-  DDTM[[i]] <- DDTM[[i]][row_sums(DDTM[[i]]) > 0, ]
-  CCATEGORY <- as.vector(sapply(rownames(DDTM[[i]]), function(x) strsplit(x,split = "_")[[1]][2]))
-  CCATE[[i]] <- ifelse(CCATEGORY == Category[i], Category[i], "-1")
-  CATE[[i]] <- as.factor(CCATE[[i]])
-  system.time(SSVM.tune[[i]] <- tune.svm(DDTM[[i]], CCATE[[i]], type = "C-classification", kernel = "linear", gamma = 10^(-6:-1), cost = 10^(-2:2), scale = T))
-  cat(i,"\n")
+for(j in 1:2){
+  n <- c(1.5,2)
+  feature.words <- sapply(chisq, function(x) Terms(dtm)[x >= n[j]])
+  for(i in 1:9){
+    TERMS <- Terms(dtm.train) %in% feature.words[[i]] 
+    DTM[[j]][[i]] <- dtm.train[, TERMS]
+    DTM[[j]][[i]] <- DTM[[j]][[i]][row_sums(DTM[[j]][[i]]) > 0, ]
+    CATEGORY <- as.vector(sapply(rownames(DTM[[j]][[i]]), function(x) strsplit(x,split = "_")[[1]][2]))
+    CATE[[j]][[i]] <- ifelse(CATEGORY == Category[i], Category[i], "-1")
+    CATE[[j]][[i]] <- as.factor(CATE[[j]][[i]])
+    system.time(SVM.tune[[j]][[i]] <- tune.svm(DTM[[j]][[i]], CATE[[j]][[i]], type = "C-classification", kernel = "linear", gamma = 10^(-6:-1), cost = 10^(-2:2), scale = T))
+    cat(i,"\n")
+  }
 }
 
 
