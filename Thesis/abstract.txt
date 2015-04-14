@@ -1,0 +1,39 @@
+摘要
+
+随着进入大数据时代，非结构化的文本数据受到了越来越多的关注。作为大数据的重要组成部分，文本数据以极快的速度产生于日常的生产生活中。从社交网站上的短文本到大型新闻站点的长篇新闻报道，如何利用好文本数据，并且从其中挖掘出有价值的信息是每一个互联网企业甚至是传统企业都非常渴求的目标。通过合理的方式，在降低人工重重复工作和信息提取最大化中找到一个平衡点，提高企业的竞争力。而近几年来又逐渐兴起的机器学习是本文重点的研究对象，尤其是文本挖掘技术在这样的个性化资讯系统中的应用。
+本文主要工作将围绕文本挖掘在新闻资讯系统中的应用来展开。
+首先本文会对文本挖掘技术做一个系统的阐述，阐述对象包含了本文将要着重讨论的两个应用点：文本分类和情感分析。在针对文本分类应用点时，主要描述一般的文本分类流程，介绍文本分类相关概念，讨论文本分类的相关算法，并介绍本文将要实现并且实验的几个文本分类算法，以及其优缺点；在面对情感分析应用点是，主要介绍了情感分析的一般流程，情感分析的种类、以及本文将要实现的情感分析算法和相应的理论基础。
+接着介绍个性化新闻资讯系统，以及本文涉及的到的应用点在系统中的位置，如何和其他功能模块进行信息的交互等。
+紧接着是本文的核心内容，对三种文本分类算法进行系统的比较。通过对分类性能指标的比较找到合适的维度删选阈限、每一个模型的最优参数选择，最终进行模型间的横向比较获得在本文场景下的最优模型，或者是模型组合；对于情感分析，在这一部分主要对情感分析的算法实现和最终效果进行描述和实验。
+本文的最终目的非常具有现实意义，即在本文所提到的个性化新闻资讯系统中，集成则有挑选出来的分类模型和情感分析算法。
+
+
+
+
+
+摘要
+Abstract
+随着进入大数据时代，非结构化的文本数据受到了越来越多的关注。作为大数据的重要组成部分，文本数据以极快的速度产生于日常的生产生活中。从社交网站上的短文本到大型新闻站点的长篇新闻报道，如何利用好文本数据，并且从其中挖掘出有价值的信息是每一个互联网企业甚至是传统企业都非常渴求的目标。通过合理的方式，在降低人工重重复工作和信息提取最大化中找到一个平衡点，提高企业的竞争力。而近几年来又逐渐兴起的机器学习是本文重点的研究对象，尤其是文本挖掘技术在这样的个性化资讯系统中的应用。
+With entering the era of big data, unstructured text data has attracted more and more attention. As an important part of big data, text data at a very fast speed in the production of daily life. From a short text on the social networking site to a news report large news site, how to make good use of text data, and from which to dig out the valuable information of every Internet companies and traditional companies are the object of desire. Through the reasonable way, reduce artificial heavy repetitive work and information extraction from maximum to find a balance, to improve the competitiveness of enterprises. In recent years, the gradual rise of the machine learning is the study object of the thesis mainly, especially the application of text mining technology in personalized information system in such.
+本文主要工作将围绕文本挖掘在新闻资讯系统中的应用来展开。
+In this paper, the main work will focus on the applications of text mining in the information system to.
+首先本文会对文本挖掘技术做一个系统的阐述，阐述对象包含了本文将要着重讨论的两个应用点：文本分类和情感分析。在针对文本分类应用点时，主要描述一般的文本分类流程，介绍文本分类相关概念，讨论文本分类的相关算法，并介绍本文将要实现并且实验的几个文本分类算法，以及其优缺点；在面对情感分析应用点是，主要介绍了情感分析的一般流程，情感分析的种类、以及本文将要实现的情感分析算法和相应的理论基础。
+Firstly, the text mining technology to make a systematic exposition, this object contains two application in this paper will be focused on the analysis of text classification and emotion. In text classification applications, describes the general text classification process, introduces the related concepts about text classification, text classification algorithm, and introduce several text classification algorithm in this paper will be implemented and experiments, and its advantages and disadvantages; in the face of emotional analysis is the main application, describes the general process of sentiment analysis the sentiment analysis, species, and this will be the sentiment analysis algorithm and its theoretical basis.
+接着介绍个性化新闻资讯系统，以及本文涉及的到的应用点在系统中的位置，如何和其他功能模块进行信息的交互等。
+Then introduce the personalized news and information system, and the location of the point of application in the system, how to carry out information interaction and other functional modules.
+紧接着是本文的核心内容，对三种文本分类算法进行系统的比较。通过对分类性能指标的比较找到合适的维度删选阈限、每一个模型的最优参数选择，最终进行模型间的横向比较获得在本文场景下的最优模型，或者是模型组合；对于情感分析，在这一部分主要对情感分析的算法实现和最终效果进行描述和实验。
+Then is the core content of this article, compares the system of three kinds of text classification algorithm. To select the optimal parameters of the classification performance by comparing to find the dimensions of the selected threshold, delete the right of each model, the final model of horizontal comparison between the optimal model in the scene, or model combination; for the sentiment analysis, description and experiment in the realization of the main part of the sentiment analysis algorithm and the final effect.
+本文的最终目的非常具有现实意义，即在本文所提到的个性化新闻资讯系统中，集成则有挑选出来的分类模型和情感分析算法。
+The final purpose of this paper is of great significance, which is mentioned in this paper the personalized news system, integrated with analysis of classification model and emotional algorithm selected.
+
+
+
+
+Summary
+
+With the arrival of the era of big data, unstructured text data has been more and more attention. As an important part of the big data, text data produced at great speed in daily production life. Short text from social networking sites to lengthy news reports major news sites, how to make good use of text data, and from which to dig out valuable information that every Internet business and even traditional companies are very hungry for goals. Reasonable way, in reducing heavy manual work and information extraction is repeated to find a balance to maximize and enhance the competitiveness of enterprises. And in recent years, but the gradual rise of machine learning is the focus of this article object of study, especially text mining technology in such personalized information system.
+The main work will focus on the application of text mining in the news system to expand.
+Firstly, we will have to do a system of text mining technology exposition object contains two applications described in this article will focus on the point: the text classification and sentiment analysis. When the point of application for text classification, text describes the general classification process, the introductory text classification related concepts, discuss relevant text classification algorithm, and describes in this article will be to implement and test several text classification algorithm, as well as its advantages and disadvantages; in face point for sentiment analysis application that introduces the general flow of sentiment analysis, sentiment analysis of species, as well as emotional article will analyze the algorithm to be implemented and the corresponding theoretical basis.
+Then introduce personalized news system, as well as the location of the point of this article relates to applications in the system, how to interact with other functional modules and other information.
+Then is the core content of this article, the three text classification algorithms to compare systems. Classification performance by comparing the election to find a suitable dimension delete threshold, the optimal parameter selection for each model, the final comparison between horizontal model in this scenario to get the optimal model, or a model portfolio; for sentiment analysis In this part of the algorithm sentiment analysis and the final results are described and experiments.
+The ultimate aim of this paper is very practical significance, namely personalized news system mentioned in this article, has chosen to integrate the classification model and sentiment analysis algorithms.
